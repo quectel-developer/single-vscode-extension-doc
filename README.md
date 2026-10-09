@@ -10,11 +10,13 @@
 
 **Quectel RTOS** brings three Quectel embedded toolchains into one VS Code extension. Install it once, then switch toolchains from the **SOLUTION** bar at the top of the panel — no second extension and no window reload.
 
-| Product | Purpose | Host OS |
+| Solution | Purpose | Host OS |
 |---|---|---|
 | **UniKnect** | MCU firmware development with the UniKnect SDK — build, flash and debug over ST-Link, with an integrated serial console | Windows, Linux |
 | **UniRTOS** | UniRTOS project creation, build, clean, flash and debug, using the Quectel flashing tool | Windows |
 | **QuecPython** | MicroPython development on Quectel modules — file transfer, interactive REPL, firmware flashing and on-device file-system access | Windows |
+
+![Quectel RTOS panel and solution switching demo](https://raw.githubusercontent.com/quectel-developer/single-vscode-extension-doc/master/images/demo.gif)
 
 Only the selected product's panel, status-bar items and editor integrations are active. Switching products releases the previous product's resources, and your selection is remembered across restarts.
 
@@ -25,7 +27,7 @@ Only the selected product's panel, status-bar items and editor integrations are 
 Use this guide to get started, understand the panel, and find the right toolchain section quickly:
 
 - [Quick start](#quick-start) · [The panel](#the-panel) · [Requirements](#requirements) · [Settings](#settings) · [Companion extensions](#companion-extensions)
-- Product sections: [UniKnect](#uniknect--mcu-development) · [UniRTOS](#unirtos--module-opencpu-development) · [QuecPython](#quecpython--module-micropython-development)
+- **Solutions**: [UniKnect](#uniknect--mcu-development) · [UniRTOS](#unirtos--module-opencpu-development) · [QuecPython](#quecpython--module-micropython-development)
 - [Package notes](#package-notes) · [About Quectel](#about-quectel) · [License](#license)
 
 ---

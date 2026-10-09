@@ -9,11 +9,13 @@
 
 **Quectel RTOS** 将三套移远嵌入式开发工具链集成到一个 VS Code 扩展中。安装一次后，即可通过面板顶部的 **SOLUTION** 栏切换工具链 —— 无需安装第二个扩展，也无需重载窗口。
 
-| 产品 | 用途 | 宿主平台 |
+| 解决方案 | 用途 | 宿主平台 |
 |---|---|---|
 | **UniKnect** | 基于 UniKnect SDK 的 MCU 固件开发 —— 通过 ST-Link 编译、烧录与调试，并提供集成串口控制台 | Windows、Linux |
 | **UniRTOS** | UniRTOS 工程创建、编译、清理、烧录与调试，使用移远烧录工具 | Windows |
 | **QuecPython** | 移远模组上的 MicroPython 开发 —— 文件传输、交互式 REPL、固件烧录与设备端文件系统 | Windows |
+
+![Quectel RTOS 面板与产品切换演示](https://raw.githubusercontent.com/quectel-developer/single-vscode-extension-doc/master/images/demo.gif)
 
 只有当前选中产品的面板、状态栏按钮和编辑器集成处于活动状态。切换产品时会释放上一个产品的资源，所选产品会在重启后保持不变。
 
@@ -24,7 +26,7 @@
 本指南面向插件使用者，帮助你快速上手、理解面板，并找到对应工具链的说明：
 
 - [快速开始](#快速开始) · [面板](#面板) · [环境要求](#环境要求) · [设置项](#设置项) · [配套扩展](#配套扩展)
-- 产品章节：[UniKnect](#uniknect--mcu-开发) · [UniRTOS](#unirtos--模组-opencpu-开发) · [QuecPython](#quecpython--模组-micropython-开发)
+- **解决方案**：[UniKnect](#uniknect--mcu-开发) · [UniRTOS](#unirtos--模组-opencpu-开发) · [QuecPython](#quecpython--模组-micropython-开发)
 - [打包说明](#打包说明) · [About Quectel](#about-quectel) · [许可证](#许可证)
 
 ---
