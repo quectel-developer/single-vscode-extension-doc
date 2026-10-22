@@ -2,9 +2,9 @@
 
 [![Quectel](https://img.shields.io/badge/Quectel-IoT%20Solutions-orange)](https://www.quectel.com) [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](https://www.apache.org/licenses/LICENSE-2.0) [![VS Code](https://img.shields.io/badge/VS%20Code-1.85.0+-blueviolet)](https://code.visualstudio.com/)
 
-<!-- A link that has to stay relative is written as HTML on purpose: `vsce` fails the package
-     over a relative markdown link when no rewrite base is configured. dev/verify-docs.mjs
-     enforces that. -->
+<!-- A link that has to stay relative is written as HTML on purpose: `vsce` rewrites relative
+     markdown links against the `repository` base URL, which points at the public
+     documentation repo rather than at this source tree. dev/verify-docs.mjs enforces that. -->
 
 **English** &nbsp;·&nbsp; <a href="README.zh-CN.md">简体中文</a>
 
@@ -86,21 +86,21 @@ The panel contains four groups, shown in the order below.
 | Button | Action |
 |---|---|
 | **Install SDK** | Clone the UniKnect SDK. Prompts for the **version** and **install path**. If an SDK is already installed, the same button also offers **Update**, which fetches and merges into that folder |
-| **Configure** | Select the target chip model and set up the build environment |
+| **Configure** | Select the target model and set up the build environment |
 | **Samples** | Browse the SDK's sample projects |
 | **Open** | Open an existing project in this window. See [Open Existing Project](#open-existing-project) |
-| **Code Repo** | Open the UniKnect GitHub repository in your browser |
-| **Terminal** | Open the shared workbench terminal |
+| **Code Repo** | Open the UniKnect GitHub repository inside VS Code |
 
 ### BUILD & DEBUG
 
 | Button | Action |
 |---|---|
-| **Build** | Compile the project |
+| **Build** | Compile the project. If **Configure** has not been run yet, the build does not start and a notice asks you to configure the project first |
 | **Clean** | Remove build artifacts |
 | **Flash** | Flash firmware to the target after checking the ST-Link driver |
 | **Debug** | Launch a `cortex-debug` session |
 | **Serial** | Open the **Serial Panel** — port configuration, a CLI command builder and a live log of what the device sends back |
+| **Terminal** | Open the shared workbench terminal |
 
 ### MEMORY REPORTS
 
@@ -156,7 +156,16 @@ A **Commands** view covers the full workflow:
 | **Build** | Compile the project with the UniRTOS toolchain |
 | **Flash** | Flash firmware to the target with `FlashToolCLI.exe` |
 | **Debug** | Start a debugging session |
-| **Document Center**, **GitHub**, **Forum**, **Official Website** | Open the matching resource in your browser |
+| **Document Center**, **GitHub**, **Forum**, **Official Website** | Open the matching resource inside VS Code |
+
+### AI ASSISTANT
+
+The same group every solution carries - see UniKnect's above.
+
+| Button | Action |
+|---|---|
+| **Copilot** | Open or close GitHub Copilot Chat |
+| **API Key** | Open the OpenAI-compatible provider settings for the base URL and API key |
 
 The **walkthrough** on the Welcome page guides toolchain, Python, Git, Quectel driver and UniRTOS CLI setup in the required order.
 
@@ -166,7 +175,7 @@ The **walkthrough** on the Welcome page guides toolchain, Python, Git, Quectel d
 
 - Windows only for now
 
-One panel with three groups.
+One panel with four groups.
 
 ### WELCOME
 
@@ -189,6 +198,15 @@ One panel with three groups.
 
 The on-device file system is shown as a card beside the other two groups. Each node's context menu offers **Run Script**, **Delete File**, **Export File** and **Delete Directory**, and the group header provides **Refresh**.
 
+### AI ASSISTANT
+
+The same group every solution carries - see UniKnect's above.
+
+| Button | Action |
+|---|---|
+| **Copilot** | Open or close GitHub Copilot Chat |
+| **API Key** | Open the OpenAI-compatible provider settings for the base URL and API key |
+
 While a module is connected, the Command Palette also provides connect / disconnect, download file or folder to the device, format document, set terminal line terminator, toggle hex translation and clear terminal.
 
 The extension ships `.pyi` stubs for the QuecPython modules, so Pylance resolves `import machine` and friends.
@@ -202,6 +220,7 @@ The extension ships `.pyi` stubs for the QuecPython modules, so Pylance resolves
 - **Git** — needed by UniRTOS and QuecPython for cloning and for some CLI commands. Install it from the [official site](https://git-scm.com/downloads) and make sure it is on your `PATH` (on Windows, choose *"Git from the command line and also from 3rd-party software"*). Restart VS Code afterwards and verify with `git --version`.
 - **UniRTOS and QuecPython are Windows-only.** On Linux and macOS they are visible but disabled, with the reason shown. On Linux, make sure `build.sh` in your project is executable (`chmod +x build.sh`).
 - A **debug probe** for flashing and debugging on hardware — ST-Link for UniKnect. Its driver is installed for you; see below.
+- On **Linux**, the **first Debug** or the **first serial connection** asks for your administrator (sudo) password once. OpenOCD needs udev permission to open the probe, and the serial console needs the same for the board's USB-UART; the extension sets both up and verifies them for you, and does not start a session or open a port when the check fails. The password goes only to `sudo` — it is not stored or logged. If you have already run `sudo` in a terminal, the cached credential is used instead.
 
 ### Downloaded on first use
 
@@ -252,19 +271,22 @@ The extension is also an **extension pack**, so VS Code can offer the following 
 
 ## Package notes
 
-README and CHANGELOG avoid relative Markdown links so `vsce package` can run without extra URL-rewrite options.
+Building the extension needs **Node.js** and **npm**.
+Node.js **20.19 or later** is required. npm comes with Node.js, so it needs no separate installation or version.
 
-To create a local VSIX package:
+The same commands work on **Windows** and **Linux**:
 
 ```bash
-npm install
-npm run compile    # manifest + type check + lint + bundle
-npm run test       # behavioural suites
-npm run verify     # docs, style scope, launch chain, dependency delta
-vsce package       # the extension package
+node --version                # 20.19 or later
+npm --version
+
+npm install                   # install dependencies; run once
+npm run compile               # build only
+npx @vscode/vsce package      # build and package (.vsix)
 ```
 
-The generated package excludes large Windows tools; they are downloaded on first use as described above.
+- `npm run compile` is optional — `npx @vscode/vsce package` runs the production build for you before packing. Run it separately only when you want to verify the build without packaging.
+- The generated **.vsix** excludes the large tools; they are downloaded on first use, as described above.
 
 ---
 

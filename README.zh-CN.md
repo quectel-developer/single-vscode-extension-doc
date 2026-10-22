@@ -2,8 +2,9 @@
 
 [![Quectel](https://img.shields.io/badge/Quectel-IoT%20Solutions-orange)](https://www.quectel.com.cn) [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](https://www.apache.org/licenses/LICENSE-2.0) [![VS Code](https://img.shields.io/badge/VS%20Code-1.85.0+-blueviolet)](https://code.visualstudio.com/)
 
-<!-- 需要保持相对地址的链接刻意写成 HTML：未配置重写基准地址时，`vsce` 会因为一个相对
-     markdown 链接直接让打包失败。dev/verify-docs.mjs 会检查这一点。 -->
+<!-- 需要保持相对地址的链接刻意写成 HTML：`vsce` 会按 `repository` 基准地址重写相对
+     markdown 链接，而该地址指向公开文档仓库，并不是本源码仓库。dev/verify-docs.mjs
+     会检查这一点。 -->
 
 <a href="README.md">English</a> &nbsp;·&nbsp; **简体中文**
 
@@ -27,7 +28,7 @@
 
 - [快速开始](#快速开始) · [面板](#面板) · [环境要求](#环境要求) · [设置项](#设置项) · [配套扩展](#配套扩展)
 - **解决方案**：[UniKnect](#uniknect--mcu-开发) · [UniRTOS](#unirtos--模组-opencpu-开发) · [QuecPython](#quecpython--模组-micropython-开发)
-- [打包说明](#打包说明) · [About Quectel](#about-quectel) · [许可证](#许可证)
+- [打包说明](#打包说明) · [关于 Quectel](#关于-quectel) · [许可证](#许可证)
 
 ---
 
@@ -88,18 +89,18 @@
 | **Configure** | 选择目标芯片型号并配置编译环境 |
 | **Samples** | 浏览 SDK 自带的示例工程 |
 | **Open** | 在当前窗口打开已有工程。详见[打开已有工程](#打开已有工程) |
-| **Code Repo** | 在浏览器中打开 UniKnect 的 GitHub 仓库 |
-| **Terminal** | 打开工作台共用终端 |
+| **Code Repo** | 在 VS Code 内置浏览器中打开 UniKnect 的 GitHub 仓库 |
 
 ### BUILD & DEBUG
 
 | 按钮 | 作用 |
 |---|---|
-| **Build** | 编译工程 |
+| **Build** | 编译工程。若尚未配置过工程，则不会开始编译，并弹窗提示请先点击 “配置” |
 | **Clean** | 清除编译产物 |
 | **Flash** | 在检查 ST-Link 驱动后将固件烧录到目标板 |
 | **Debug** | 启动 `cortex-debug` 调试会话 |
 | **Serial** | 打开 **串口面板** —— 串口参数配置、CLI 命令构造器，以及设备返回内容的实时日志 |
+| **Terminal** | 打开工作台共用终端 |
 
 ### MEMORY REPORTS
 以两个仪表盘显示编译产出的 ROM 与 RAM 占用，并在每次编译后自动刷新，无需重载。
@@ -153,7 +154,16 @@ UniKnect 处于活动状态时，状态栏会在 VS Code "无问题"项右侧依
 | **Build** | 使用 UniRTOS 工具链编译工程 |
 | **Flash** | 通过 `FlashToolCLI.exe` 将固件烧录到目标板 |
 | **Debug** | 启动调试会话 |
-| **Document Center**、**GitHub**、**Forum**、**Official Website** | 在浏览器中打开对应资源 |
+| **Document Center**、**GitHub**、**Forum**、**Official Website** | 在 VS Code 内置浏览器中打开对应资源 |
+
+### AI ASSISTANT
+
+与其它两个解决方案共用的同一分组——详见上文 UniKnect 部分。
+
+| 按钮 | 作用 |
+|---|---|
+| **Copilot** | 快速打开/关闭 GitHub Copilot Chat |
+| **API Key** | 打开 OpenAI 兼容服务的设置，配置 Base URL 与 API Key |
 
 欢迎页上的**引导流程**会按所需顺序完成工具链、Python、Git、移远驱动与 UniRTOS CLI 的安装指引。
 
@@ -162,7 +172,7 @@ UniKnect 处于活动状态时，状态栏会在 VS Code "无问题"项右侧依
 ## QuecPython —— 模组 MicroPython 开发
 - 目前仅支持Windows环境
 
-一个面板包含三个分组。
+一个面板包含四个分组。
 
 ### WELCOME
 
@@ -185,6 +195,15 @@ UniKnect 处于活动状态时，状态栏会在 VS Code "无问题"项右侧依
 
 设备端文件系统以卡片形式与其他两个分组并列展示。每个节点的右键菜单提供 **Run Script**、**Delete File**、**Export File**、**Delete Directory**，分组标题栏提供 **Refresh**。
 
+### AI ASSISTANT
+
+与其它两个解决方案共用的同一分组——详见上文 UniKnect 部分。
+
+| 按钮 | 作用 |
+|---|---|
+| **Copilot** | 快速打开/关闭 GitHub Copilot Chat |
+| **API Key** | 打开 OpenAI 兼容服务的设置，配置 Base URL 与 API Key |
+
 模组连接后，还可从命令面板执行：连接 / 断开串口、下载文件或文件夹到设备、格式化文档、设置终端行结束符、切换十六进制转换、清空终端。
 
 扩展内置了 QuecPython 各模块的 `.pyi` 存根，Pylance 可直接解析 `import machine` 等导入。
@@ -198,6 +217,7 @@ UniKnect 处于活动状态时，状态栏会在 VS Code "无问题"项右侧依
 - **Git** —— UniRTOS 与 QuecPython 在克隆仓库和执行部分 CLI 命令时需要。请从[官网](https://git-scm.com/downloads)安装，并确保其已加入系统 `PATH`（Windows 安装时勾选 *"Git from the command line and also from 3rd-party software"*）。安装后重启 VS Code，并在终端中用 `git --version` 验证。
 - **UniRTOS 与 QuecPython 仅支持 Windows。** 在 Linux 与 macOS 上它们会以禁用状态显示并给出原因。在 Linux 上请确保工程的 `build.sh` 具有可执行权限（`chmod +x build.sh`）。
 - 烧录与硬件调试需要**调试探针** —— UniKnect 使用 ST-Link。其驱动会由扩展自动安装，见下文。
+- 在 **Linux** 上，**首次调试**或**首次连接串口**需要输入一次管理员（sudo）密码。OpenOCD 打开探针需要 udev 权限，串口控制台访问板载 USB-UART 同样如此；扩展会自动完成配置并校验，校验不通过则不会启动调试或打开串口。密码只交给 `sudo`，不保存、不写入日志。若刚在终端里执行过 `sudo`，会直接使用已缓存的凭证。
 
 ### 首次使用时自动下载
 
@@ -248,23 +268,26 @@ UniKnect 处于活动状态时，状态栏会在 VS Code "无问题"项右侧依
 
 ## 打包说明
 
-README 与 CHANGELOG 不使用相对 Markdown 链接，以便 `vsce package` 无需额外的链接重写参数即可打包。
+编译和打包需要 **Node.js** 与 **npm**。
+版本要求：Node.js **20.19 或更高**。npm 会随 Node.js 一同安装，无需单独安装或指定版本。
 
-如需生成本地 VSIX 安装包：
+以下命令在 **Windows** 与 **Linux** 环境下通用：
 
 ```bash
-npm install
-npm run compile    # 生成清单 + 类型检查 + lint + 打包
-npm run test       # 行为测试套件
-npm run verify     # 文档、样式作用域、启动链、依赖变更
-vsce package       # 扩展安装包
+node --version                # 检查工具，需 20.19 或更高
+npm --version                 # 检查工具
+
+npm install                   # 安装依赖，首次执行即可
+npm run compile               # 编译
+npx @vscode/vsce package      # 编译 + 打包 (.vsix)
 ```
 
-生成的安装包不包含大型 Windows 工具；这些工具会按上文说明在首次使用时自动下载。
+- `npm run compile` 不是必需步骤，`npx @vscode/vsce package` 打包前会自动完成生产构建。仅当想单独检查构建是否通过时，才需执行它。
+- 生成的 **.vsix** 安装包不包含大型工具，这些工具会按上文说明在首次使用扩展时自动下载。
 
 ---
 
-## About Quectel
+## 关于 Quectel
 
 **移远通信（Quectel）** 是全球领先的物联网解决方案供应商。本扩展是移远开发者工具链的一部分，旨在让基于移远模组及更广泛平台的嵌入式开发更加友好与顺畅。
 
